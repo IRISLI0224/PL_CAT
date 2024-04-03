@@ -27,6 +27,10 @@ import angry1 from "../../assests/img/sceneOne/kntAngery1.png";
 import angry2 from "../../assests/img/sceneOne/kntAngery2.png";
 import angry3 from "../../assests/img/sceneOne/kntAngery3.png";
 import question from "../../assests/img/sceneOne/questionMark.png";
+import paw1 from "../../assests/img/sceneOne/paw1.png";
+import paw2 from "../../assests/img/sceneOne/paw2.png";
+import scratch1 from "../../assests/img/sceneOne/scratch1.png";
+import scratch2 from "../../assests/img/sceneOne/scratch2.png";
 
 const bounce = keyframes`
   0% { transform: translateY(0); }
@@ -115,13 +119,53 @@ const Angry2 = styled.img`
   position: absolute;
   top: 150px;
   left: 400px;
-  width: 70px;
+  width: 82px;
   height: 70px;
   object-fit: cover;
   animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
 `;
 
 const Angry3 = styled.img`
+  position: absolute;
+  top: 130px;
+  left: 260px;
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
+`;
+
+const Paw1 = styled.img`
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+ // animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
+`;
+
+const Paw2 = styled.img`
+  position: absolute;
+  top: 130px;
+  left: 260px;
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
+`;
+
+const Scratch1 = styled.img`
+  position: absolute;
+  top: 130px;
+  left: 260px;
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
+`;
+
+const Scratch2 = styled.img`
   position: absolute;
   top: 130px;
   left: 260px;
@@ -142,7 +186,8 @@ const QuestionMark = styled.img`
   ${({ visible }) =>
     visible &&
     css`
-      animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
+      animation: ${bounce} 0.5s ease-in-out infinite,
+        ${fadeIn} 0.3s linear forwards;
     `};
 `;
 
@@ -216,14 +261,17 @@ const StartButton = styled.img`
   height: auto;
   object-fit: cover;
   filter: brightness(1);
-
+  transition: filter 0.3s ease, transform 0.3s ease;
   ${(props) =>
     props.hover &&
     css`
       filter: brightness(1.2);
+      transform: scale(1.02);
     `}
+
   &:hover {
     filter: brightness(1.3);
+    transform: scale(1.03);
   }
 `;
 
@@ -235,13 +283,17 @@ const CloseButton = styled.img`
   height: auto;
   object-fit: cover;
   filter: brightness(1);
+  transition: filter 0.3s ease, transform 0.3s ease;
   ${(props) =>
     props.hover &&
     css`
       filter: brightness(1.2);
+      transform: scale(1.02);
     `}
+
   &:hover {
     filter: brightness(1.3);
+    transform: scale(1.03);
   }
 `;
 
@@ -330,11 +382,18 @@ const FirstPage = () => {
                 mood={catTwoMood}
               />
               {catOneMood === 3 && <Angry1 src={angry1} alt="Angry1" />}
-              {catOneMood === 1 && (
-                <Angry2 src={angry2} alt="Angry2" />
-              )}
-              {catOneMood === 0  || catOneMood === 2  &&<Angry3 src={angry3} alt="Angry3" />}
-              <QuestionMark src={question} alt="question" visible={showQuestion}/>
+              {catOneMood === 1 && <Angry2 src={angry2} alt="Angry2" />}
+              {catOneMood === 0 ||
+                (catOneMood === 2 && <Angry3 src={angry3} alt="Angry3" />)}
+              <QuestionMark
+                src={question}
+                alt="question"
+                visible={showQuestion}
+              />
+              {/* <Paw1 src={paw1} alt="paw1" /> */}
+              {/* <Paw2 src={paw2} alt="paw2"  />
+              <Scratch1 src={scratch1} alt="scratch1"  />
+              <Scratch2 src={scratch2} alt="scratch2" /> */}
             </>
           ) : (
             <div>
