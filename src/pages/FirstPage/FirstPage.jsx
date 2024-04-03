@@ -19,6 +19,16 @@ import startBG from "../../assests/img/sceneOne/StartScene.png";
 import startButton from "../../assests/img/sceneOne/StartButton.png";
 import closeButton from "../../assests/img/sceneOne/CloseButton.png";
 
+const OuterContainer = styled.div`
+  width: 1300px;
+  height: 600px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+`;
+
 const Container = styled.div`
   width: 1000px;
   height: 600px;
@@ -27,7 +37,6 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  padding-bottom: 56.25%;
 `;
 
 const MainPanel = styled.div`
@@ -163,29 +172,39 @@ const FirstPage = () => {
   };
 
   return (
-    <Container>
-      <MainPanel start={start} bg={bg} startBG={startBG}>
-        {start ? (
-          <>
-            <BGAudioPlayer src={bgMusic} start={start} />
-            <FixedUI src={fixedUI} alt="Fixed UI" />
-            <CatTwo src={nytOne} alt="catTwo" onClick={handleClickCatTwo} />
-            <CatOne src={kntOne} alt="catOne" onClick={handleClickCatOne} />
-            <CatOneHeart src={kntHeart5} alt="catOneHeart" mood={catOneMood} />
-            <CatTwoHeart src={nytHeart5} alt="catOneHeart" mood={catTwoMood} />
-          </>
-        ) : (
-          <div>
-            <StartButton
-              src={startButton}
-              alt="StartButton"
-              onClick={handleClickStart}
-            />
-            <CloseButton src={closeButton} alt="CloseButton" />
-          </div>
-        )}
-      </MainPanel>
-    </Container>
+    <OuterContainer>
+      <Container>
+        <MainPanel start={start} bg={bg} startBG={startBG}>
+          {start ? (
+            <>
+              <BGAudioPlayer src={bgMusic} start={start} />
+              <FixedUI src={fixedUI} alt="Fixed UI" />
+              <CatTwo src={nytOne} alt="catTwo" onClick={handleClickCatTwo} />
+              <CatOne src={kntOne} alt="catOne" onClick={handleClickCatOne} />
+              <CatOneHeart
+                src={kntHeart5}
+                alt="catOneHeart"
+                mood={catOneMood}
+              />
+              <CatTwoHeart
+                src={nytHeart5}
+                alt="catOneHeart"
+                mood={catTwoMood}
+              />
+            </>
+          ) : (
+            <div>
+              <StartButton
+                src={startButton}
+                alt="StartButton"
+                onClick={handleClickStart}
+              />
+              <CloseButton src={closeButton} alt="CloseButton" />
+            </div>
+          )}
+        </MainPanel>
+      </Container>
+    </OuterContainer>
   );
 };
 
