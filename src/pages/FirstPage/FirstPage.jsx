@@ -1,16 +1,13 @@
 import React, { useState } from "react";
-import styled, { css } from "styled-components";
-import One from "../../components/One";
-import Two from "../../components/Two";
+import styled, { css, keyframes } from "styled-components";
 import bg from "../../assests/img/sceneOne/bg.png";
 import fixedUI from "../../assests/img/sceneOne/FixedUI.png";
 import kntHeart5 from "../../assests/img/sceneOne/knt5.png";
 import kntHeart4 from "../../assests/img/sceneOne/knt4.png";
 import kntHeart3 from "../../assests/img/sceneOne/kntheart3.png";
 import kntHeart2 from "../../assests/img/sceneOne/kntheart2.png";
-import kntHeart1 from "../../assests/img/sceneOne/kntheart0.png";
+import kntHeart1 from "../../assests/img/sceneOne/kntheart1.png";
 import kntHeart0 from "../../assests/img/sceneOne/kntheart0.png";
-import nytHeart5 from "../../assests/img/sceneOne/nyt5.png";
 import kntOne from "../../assests/img/sceneOne/knt1.png";
 import nytOne from "../../assests/img/sceneOne/nyt1.png";
 //import handCursor from '../../assests/img/sceneOne/hand.png'
@@ -24,10 +21,36 @@ import catMeow2 from "../../assests/audio/cat-meow-2.mp3";
 import catMeow3 from "../../assests/audio/cat-meow-3.mp3";
 import angryCatMeow1 from "../../assests/audio/angry-cat.mp3";
 import angryCatMeow2 from "../../assests/audio/very-angry-cat.mp3";
+import click from "../../assests/audio/click.mp3";
+import menuClick from "../../assests/audio/menu-click.mp3";
 import angry1 from "../../assests/img/sceneOne/kntAngery1.png";
 import angry2 from "../../assests/img/sceneOne/kntAngery2.png";
 import angry3 from "../../assests/img/sceneOne/kntAngery3.png";
 import question from "../../assests/img/sceneOne/questionMark.png";
+
+const bounce = keyframes`
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
 
 const OuterContainer = styled.div`
   width: 1300px;
@@ -78,24 +101,6 @@ const FixedUI = styled.img`
   }
 `;
 
-const CatOne = styled.img`
-  position: absolute;
-  top: 140px;
-  left: 120px;
-  width: 320px;
-  height: 300px;
-  object-fit: cover;
-  filter: brightness(1);
-  ${(props) =>
-    props.hover &&
-    css`
-      filter: brightness(1.2);
-    `}
-  &:hover {
-    filter: brightness(1.3);
-  }
-`;
-
 const Angry1 = styled.img`
   position: absolute;
   top: 200px;
@@ -103,6 +108,7 @@ const Angry1 = styled.img`
   width: 50px;
   height: 50px;
   object-fit: cover;
+  animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
 `;
 
 const Angry2 = styled.img`
@@ -112,6 +118,7 @@ const Angry2 = styled.img`
   width: 70px;
   height: 70px;
   object-fit: cover;
+  animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
 `;
 
 const Angry3 = styled.img`
@@ -121,6 +128,7 @@ const Angry3 = styled.img`
   width: 90px;
   height: 90px;
   object-fit: cover;
+  animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
 `;
 
 const QuestionMark = styled.img`
@@ -130,6 +138,34 @@ const QuestionMark = styled.img`
   width: auto;
   height: auto;
   object-fit: cover;
+  opacity: 0;
+  ${({ visible }) =>
+    visible &&
+    css`
+      animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
+    `};
+`;
+
+const CatOne = styled.img`
+  position: absolute;
+  top: 140px;
+  left: 120px;
+  width: 320px;
+  height: 300px;
+  object-fit: cover;
+  filter: brightness(1);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  ${(props) =>
+    props.hover &&
+    css`
+      filter: brightness(1.1);
+      transform: scale(1.02);
+    `}
+
+  &:hover {
+    filter: brightness(1.2);
+    transform: scale(1.03);
+  }
 `;
 
 const CatTwo = styled.img`
@@ -140,13 +176,17 @@ const CatTwo = styled.img`
   height: 280px;
   object-fit: cover;
   filter: brightness(1);
+  transition: filter 0.3s ease, transform 0.3s ease;
   ${(props) =>
     props.hover &&
     css`
-      filter: brightness(1.2);
+      filter: brightness(1.1);
+      transform: scale(1.02);
     `}
+
   &:hover {
-    filter: brightness(1.3);
+    filter: brightness(1.2);
+    transform: scale(1.03);
   }
 `;
 
@@ -211,9 +251,11 @@ const FirstPage = () => {
   const [catOneMood, setCatOneMood] = useState(5);
   //NYT mood
   const [catTwoMood, setcatTwoMood] = useState(5);
+  const [showQuestion, setShowQuestion] = useState(false);
 
   //Handle click KNT
   const handleClickCatOne = () => {
+    new Audio(click).play();
     setCatOneMood(catOneMood - 1);
     if (catOneMood <= 2) {
       new Audio(angryCatMeow2).play();
@@ -228,6 +270,7 @@ const FirstPage = () => {
 
   //Handle click NYT
   const handleClickCatTwo = () => {
+    new Audio(click).play();
     setcatTwoMood(catTwoMood - 0.3);
     if (catTwoMood <= 2) {
       new Audio(angryCatMeow2).play();
@@ -238,10 +281,15 @@ const FirstPage = () => {
     } else {
       new Audio(catMeow3).play();
     }
+    setShowQuestion(true);
+    setTimeout(() => {
+      setShowQuestion(false);
+    }, 900);
   };
 
   const handleClickStart = () => {
     setStart(true);
+    new Audio(menuClick).play();
   };
 
   const getKNTHeartImage = (mood) => {
@@ -281,10 +329,12 @@ const FirstPage = () => {
                 alt="catOneHeart"
                 mood={catTwoMood}
               />
-              {/* <Angry1 src={angry1} alt="Angry1" />
-              <Angry2 src={angry2} alt="Angry2" />
-              <Angry3 src={angry2} alt="Angry3" />
-              <QuestionMark src={question} alt="question" /> */}
+              {catOneMood === 3 && <Angry1 src={angry1} alt="Angry1" />}
+              {catOneMood === 1 && (
+                <Angry2 src={angry2} alt="Angry2" />
+              )}
+              {catOneMood === 0  || catOneMood === 2  &&<Angry3 src={angry3} alt="Angry3" />}
+              <QuestionMark src={question} alt="question" visible={showQuestion}/>
             </>
           ) : (
             <div>
