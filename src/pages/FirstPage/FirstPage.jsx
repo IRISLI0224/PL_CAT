@@ -21,11 +21,6 @@ const Container = styled.div`
   align-items: center;
   position: relative;
   padding-bottom: 56.25%;
-  @media (max-aspect-ratio: 5/4) {
-    transform: rotate(90deg);
-    width: 100vh;
-    height: 100vw;
-  }
 `;
 
 const MainPanel = styled.div`
