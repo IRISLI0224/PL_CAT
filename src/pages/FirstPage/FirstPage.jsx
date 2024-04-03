@@ -20,8 +20,8 @@ import startButton from "../../assests/img/sceneOne/StartButton.png";
 import closeButton from "../../assests/img/sceneOne/CloseButton.png";
 
 const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 1000px;
+  height: 600px;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -105,10 +105,10 @@ const CatTwoHeart = styled.img`
 
 const StartButton = styled.img`
   position: absolute;
-  top: 55vh;
-  left: 19vw;
-  width: 15vw;
-  height: 12vh;
+  top: 330px;
+  left: 190px;
+  width: 180px;
+  height: auto;
   object-fit: cover;
   filter: brightness(1);
 
@@ -124,10 +124,10 @@ const StartButton = styled.img`
 
 const CloseButton = styled.img`
   position: absolute;
-  top: 55vh;
-  left: 63vw;
-  width: 15vw;
-  height: 12vh;
+  top: 330px;
+  left: 600px;
+  width: 180px;
+  height: auto;
   object-fit: cover;
   filter: brightness(1);
   ${(props) =>
@@ -149,17 +149,17 @@ const FirstPage = () => {
 
   //Handle click KNT
   const handleClickCatOne = () => {
-    setCatOneMood(catOneMood-1)
+    setCatOneMood(catOneMood - 1);
   };
 
   //Handle click NYT
   const handleClickCatTwo = () => {
-    setcatTwoMood(catTwoMood-0.3)
+    setcatTwoMood(catTwoMood - 0.3);
     console.log("click");
   };
 
   const handleClickStart = () => {
-    setStart(true)
+    setStart(true);
   };
 
   return (
@@ -167,12 +167,12 @@ const FirstPage = () => {
       <MainPanel start={start} bg={bg} startBG={startBG}>
         {start ? (
           <>
-            <BGAudioPlayer src={bgMusic} start={start}/>
+            <BGAudioPlayer src={bgMusic} start={start} />
             <FixedUI src={fixedUI} alt="Fixed UI" />
             <CatTwo src={nytOne} alt="catTwo" onClick={handleClickCatTwo} />
             <CatOne src={kntOne} alt="catOne" onClick={handleClickCatOne} />
-            <CatOneHeart src={kntHeart5} alt="catOneHeart" mood={catOneMood}/>
-            <CatTwoHeart src={nytHeart5} alt="catOneHeart" mood={catTwoMood}/>
+            <CatOneHeart src={kntHeart5} alt="catOneHeart" mood={catOneMood} />
+            <CatTwoHeart src={nytHeart5} alt="catOneHeart" mood={catTwoMood} />
           </>
         ) : (
           <div>
