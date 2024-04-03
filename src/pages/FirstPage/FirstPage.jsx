@@ -92,7 +92,9 @@ const FirstPage = () => {
   const handleClickCatOne = () => {};
 
   //Handle click NYT
-  const handleClickCatTwo = () => {};
+  const handleClickCatTwo = () => {
+    console.log('click')
+  };
 
   return (
     <Container>
