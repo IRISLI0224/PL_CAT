@@ -1,22 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 
-const BackgroundMusic = ({ src }) => {
+const BackgroundMusic = ({ src,start }) => {
   const [audio] = useState(new Audio(src));
-  const [userInteracted, setUserInteracted] = useState(false);
 
   useEffect(() => {
-    const handleUserInteraction = () => {
-      setUserInteracted(true);
-    };
-
-    document.addEventListener('click', handleUserInteraction);
-    return () => {
-      document.removeEventListener('click', handleUserInteraction);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (userInteracted) {
+    if (start) {
       audio.loop = true;
       audio.play();
     }
@@ -24,7 +12,7 @@ const BackgroundMusic = ({ src }) => {
     return () => {
       audio.pause();
     };
-  }, [audio, userInteracted]);
+  }, [audio, start]);
 
   return null;
 };
