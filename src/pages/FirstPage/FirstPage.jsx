@@ -9,7 +9,7 @@ import nytHeart5 from "../../assests/img/sceneOne/nyt5.png";
 import kntOne from "../../assests/img/sceneOne/knt1.png";
 import nytOne from "../../assests/img/sceneOne/nyt1.png";
 //import handCursor from '../../assests/img/sceneOne/hand.png'
-//import bgMusic from "../../assests/audio/sceneOne.mp3";
+import bgMusic from "../../assests/audio/SceneOneBG.mp3";
 import BGAudioPlayer from "../../utils/BGAudioPlayer";
 
 const Container = styled.div`
@@ -19,12 +19,19 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  padding-bottom: 56.25%;
+  @media (max-aspect-ratio: 5/4) {
+    transform: rotate(90deg);
+    width: 100vh;
+    height: 100vw;
+  }
 `;
 
 const MainPanel = styled.div`
   position: relative;
-  width: 95%;
-  height: 95%;
+  width: 100%;
+  height: 100%;
   background: url(${bg}) no-repeat center center;
   background-size: cover;
   cursor: pointer;
@@ -42,36 +49,36 @@ const FixedUI = styled.img`
 
 const CatOne = styled.img`
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 95%;
-  height: 95%;
+  top: 18vh;
+  left: 10vw;
+  width: 32vw;
+  height: 60vh;
   object-fit: cover;
 `;
 
 const CatTwo = styled.img`
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 95%;
-  height: 95%;
+  top: 25vh;
+  left: 33vw;
+  width: 33vw;
+  height: 52vh;
   object-fit: cover;
 `;
 
 const CatOneHeart = styled.img`
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 75vh;
+  left: 10vw;
+  width: 11.5vw;
+  height: 3.5vh;
   object-fit: cover;
 `;
 const CatTwoHeart = styled.img`
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 27vh;
+  left: 75vw;
+  width: 11.5vw;
+  height: 3.5vh;
   object-fit: cover;
 `;
 
@@ -93,13 +100,13 @@ const FirstPage = () => {
 
   //Handle click NYT
   const handleClickCatTwo = () => {
-    console.log('click')
+    console.log("click");
   };
 
   return (
     <Container>
       <MainPanel>
-        <BGAudioPlayer src={'../../assests/audio/sceneOne.mp3'} />
+        <BGAudioPlayer src={bgMusic} />
         <FixedUI src={fixedUI} alt="Fixed UI" />
         <CatTwo src={nytOne} alt="catTwo" onClick={handleClickCatTwo} />
         <CatOne src={kntOne} alt="catOne" onClick={handleClickCatOne} />
