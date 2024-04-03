@@ -57,14 +57,23 @@ const FixedUI = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: brightness(1);
+  ${(props) =>
+    props.hover &&
+    css`
+      filter: brightness(1.1);
+    `}
+  &:hover {
+    filter: brightness(1.1);
+  }
 `;
 
 const CatOne = styled.img`
   position: absolute;
-  top: 18vh;
-  left: 10vw;
-  width: 32vw;
-  height: 60vh;
+  top: 140px;
+  left: 120px;
+  width: 320px;
+  height: 300px;
   object-fit: cover;
   filter: brightness(1);
   ${(props) =>
@@ -79,10 +88,10 @@ const CatOne = styled.img`
 
 const CatTwo = styled.img`
   position: absolute;
-  top: 25vh;
-  left: 33vw;
-  width: 33vw;
-  height: 52vh;
+  top: 160px;
+  left: 310px;
+  width: 350px;
+  height: 280px;
   object-fit: cover;
   filter: brightness(1);
   ${(props) =>
@@ -97,18 +106,18 @@ const CatTwo = styled.img`
 
 const CatOneHeart = styled.img`
   position: absolute;
-  top: 75vh;
-  left: 10vw;
-  width: 11.5vw;
-  height: 3.5vh;
+  top: 422px;
+  left: 100px;
+  width: 120px;
+  height: 18px;
   object-fit: cover;
 `;
 const CatTwoHeart = styled.img`
   position: absolute;
-  top: 27vh;
-  left: 75vw;
-  width: 11.5vw;
-  height: 3.5vh;
+  top: 187px;
+  left: 750px;
+  width: 120px;
+  height: 18px;
   object-fit: cover;
 `;
 
