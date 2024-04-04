@@ -41,6 +41,12 @@ const bounce = keyframes`
   100% { transform: translateY(0); }
 `;
 
+const bounce2 = keyframes`
+  0% { transform: translateY(-800px); }
+  50% { transform: translateY(-500px); }
+  100% { transform: translateY(0); }
+`;
+
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -145,37 +151,45 @@ const Paw1 = styled.img`
   width: auto;
   height: auto;
   object-fit: cover;
-  // animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
+  visibility: ${(props) => (props.show ? "visible" : "hidden")};
+  transition: opacity 0.5s;
+  opacity: 50%;
 `;
 
 const Paw2 = styled.img`
   position: absolute;
-  top: 130px;
-  left: 260px;
-  width: 90px;
-  height: 90px;
+  top: 0px;
+  left: 100px;
+  width: auto;
+  height: auto;
   object-fit: cover;
-  animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
+  visibility: ${(props) => (props.show ? "visible" : "hidden")};
+  transition: opacity 0.5s;
+  opacity: 50%;
 `;
 
 const Scratch1 = styled.img`
   position: absolute;
-  top: 130px;
-  left: 260px;
-  width: 90px;
-  height: 90px;
+  top: 0px;
+  left: 100px;
+  width: auto;
+  height: auto;
   object-fit: cover;
-  animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
+  visibility: ${(props) => (props.show ? "visible" : "hidden")};
+  animation: ${bounce2} 0.6s ease-in-out infinite,
+    ${fadeIn} 0.3s linear forwards;
 `;
 
 const Scratch2 = styled.img`
   position: absolute;
-  top: 130px;
-  left: 260px;
-  width: 90px;
-  height: 90px;
+  top: 0px;
+  left: 100px;
+  width: auto;
+  height: auto;
   object-fit: cover;
-  animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
+  visibility: ${(props) => (props.show ? "visible" : "hidden")};
+  animation: ${bounce2} 0.6s ease-in-out infinite,
+    ${fadeIn} 0.3s linear forwards;
 `;
 
 const QuestionMark = styled.img`
@@ -249,8 +263,8 @@ const CatOneHeart = styled.img`
 
 const CatTwoHeart = styled.img`
   position: absolute;
-  top: 187px;
-  left: 750px;
+  top: 414px;
+  left: 670px;
   width: 120px;
   height: 18px;
   object-fit: cover;
@@ -320,8 +334,10 @@ const FirstPage = () => {
   const [catTwoSrc, setCatTwoSrc] = useState(nytOne);
   //effect
   const [showQuestion, setShowQuestion] = useState(false);
-  const [showScreenEffect1, setShowScreenEffect1] = useState(false);
-  const [showScreenEffect2, setShowScreenEffect2] = useState(false);
+  const [showPaw1, setShowPaw1] = useState(false);
+  const [showPaw2, setShowPaw2] = useState(false);
+  const [showScratch1, setShowScratch1] = useState(false);
+  const [showScratch2, setShowScratch2] = useState(false);
 
   //Handle click KNT
   const handleClickCatOne = () => {
@@ -333,25 +349,39 @@ const FirstPage = () => {
       setCatOneHeight(330);
       setCatOneTop(140);
       setCatOneSrc(kntTwo);
+      setShowScratch1(true);
       setTimeout(() => {
+        setShowScratch1(false);
         setCatOneWidth(320);
         setCatOneHeight(300);
         setCatOneTop(140);
         setCatOneSrc(kntOne);
-      }, 800);
+      }, 600);
     } else if (catOneMood <= 1) {
       new Audio(angryCatMeow2).play();
+      setCatOneSrc(kntThree);
       setCatOneWidth(300);
       setCatOneHeight(380);
       setCatOneTop(70);
-      setCatOneSrc(kntThree);
+      setShowScratch2(true);
       setTimeout(() => {
+        setShowScratch2(false);
         setCatOneWidth(320);
         setCatOneHeight(300);
         setCatOneTop(140);
         setCatOneSrc(kntOne);
-      }, 800);
+      }, 600);
+    } else if (catOneMood <= 3) {
+      setShowPaw2(true);
+      setTimeout(() => {
+        setShowPaw2(false);
+      }, 600);
+      new Audio(catMeow1).play();
     } else if (catOneMood <= 4) {
+      setShowPaw1(true);
+      setTimeout(() => {
+        setShowPaw1(false);
+      }, 600);
       new Audio(catMeow1).play();
     } else {
       new Audio(catMeow3).play();
@@ -453,10 +483,10 @@ const FirstPage = () => {
                 alt="question"
                 visible={showQuestion}
               />
-              {/* <Paw1 src={paw1} alt="paw1" /> */}
-              {/* <Paw2 src={paw2} alt="paw2"  />
-              <Scratch1 src={scratch1} alt="scratch1"  />
-              <Scratch2 src={scratch2} alt="scratch2" /> */}
+              <Paw1 src={paw1} alt="paw1" show={showPaw1} />
+              <Paw2 src={paw2} alt="paw2" show={showPaw2} />
+              <Scratch1 src={scratch1} alt="scratch1" show={showScratch1} />
+              <Scratch2 src={scratch2} alt="scratch2" show={showScratch2} />
             </>
           ) : (
             <div>

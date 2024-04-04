@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/static/js/main.5f6dbdd8.chunk.js",
-    "main.js.map": "/static/js/main.5f6dbdd8.chunk.js.map",
+    "main.js": "/static/js/main.66ef0a11.chunk.js",
+    "main.js.map": "/static/js/main.66ef0a11.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.815fe873.js",
     "runtime-main.js.map": "/static/js/runtime-main.815fe873.js.map",
     "static/js/2.923b3cd0.chunk.js": "/static/js/2.923b3cd0.chunk.js",
@@ -13,7 +13,7 @@
     "static/css/main.6dea0f05.chunk.css.map": "/static/css/main.6dea0f05.chunk.css.map",
     "static/js/2.923b3cd0.chunk.js.LICENSE.txt": "/static/js/2.923b3cd0.chunk.js.LICENSE.txt",
     "static/media/CloseButton.808c140e.png": "/static/media/CloseButton.808c140e.png",
-    "static/media/FixedUI.21506ab9.png": "/static/media/FixedUI.21506ab9.png",
+    "static/media/FixedUI.72e142ee.png": "/static/media/FixedUI.72e142ee.png",
     "static/media/SceneOneBG.3bd3a6a0.mp3": "/static/media/SceneOneBG.3bd3a6a0.mp3",
     "static/media/StartButton.5deb130c.png": "/static/media/StartButton.5deb130c.png",
     "static/media/StartScene.b0c7bec9.png": "/static/media/StartScene.b0c7bec9.png",
@@ -39,6 +39,6 @@
     "static/js/runtime-main.815fe873.js",
     "static/js/2.923b3cd0.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.5f6dbdd8.chunk.js"
+    "static/js/main.66ef0a11.chunk.js"
   ]
 }
