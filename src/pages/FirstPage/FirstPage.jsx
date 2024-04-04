@@ -392,6 +392,9 @@ const Hand = styled.img`
     filter: brightness(1.2);
     transform: scale(1.03);
   }
+  filter: ${(props) => (props.selected ? "brightness(1.1)" : "brightness(0.8)")};
+  transform: ${(props) => (props.selected ? "scale(1.1)" : "scale(1)")};
+  transition: filter 0.3s, transform 0.3s;
 `;
 
 const Lollipop = styled.img`
@@ -414,6 +417,9 @@ const Lollipop = styled.img`
     filter: brightness(1.2);
     transform: scale(1.03);
   }
+  filter: ${(props) => (props.selected ? "brightness(1.1)" : "brightness(0.8)")};
+  transform: ${(props) => (props.selected ? "scale(1.1)" : "scale(1)")};
+  transition: filter 0.3s, transform 0.3s;
 `;
 
 const Food2 = styled.img`
@@ -436,6 +442,9 @@ const Food2 = styled.img`
     filter: brightness(1.2);
     transform: scale(1.03);
   }
+  filter: ${(props) => (props.selected ? "brightness(1.1)" : "brightness(0.8)")};
+  transform: ${(props) => (props.selected ? "scale(1.1)" : "scale(1)")};
+  transition: filter 0.3s, transform 0.3s;
 `;
 
 const Towel = styled.img`
@@ -458,6 +467,9 @@ const Towel = styled.img`
     filter: brightness(1.2);
     transform: scale(1.03);
   }
+  filter: ${(props) => (props.selected ? "brightness(1.1)" : "brightness(0.8)")};
+  transform: ${(props) => (props.selected ? "scale(1.1)" : "scale(1)")};
+  transition: filter 0.3s, transform 0.3s;
 `;
 const FirstPage = () => {
   //If game starts
@@ -642,6 +654,10 @@ const FirstPage = () => {
     setSelectFunction(type)
   };
 
+  const isFunctionSelected = (functionName) => {
+    return selectFunction === functionName;
+  };
+
   return (
     <OuterContainer>
       <Container>
@@ -681,6 +697,7 @@ const FirstPage = () => {
                 onClick={() => {
                   handleFunctionOnClick("hand");
                 }}
+                selected={isFunctionSelected("hand")}
               />
               <Lollipop
                 src={lollipop}
@@ -688,6 +705,7 @@ const FirstPage = () => {
                 onClick={() => {
                   handleFunctionOnClick("lollipop");
                 }}
+                selected={isFunctionSelected("lollipop")}
               />
               <Food2
                 src={food2}
@@ -695,6 +713,7 @@ const FirstPage = () => {
                 onClick={() => {
                   handleFunctionOnClick("food2");
                 }}
+                selected={isFunctionSelected("food2")}
               />
               <Towel
                 src={towel}
@@ -702,6 +721,7 @@ const FirstPage = () => {
                 onClick={() => {
                   handleFunctionOnClick("towel");
                 }}
+                selected={isFunctionSelected("towel")}
               />
               <CatOneHeart
                 src={getKNTHeartImage(catOneMood)}
