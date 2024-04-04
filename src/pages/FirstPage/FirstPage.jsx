@@ -340,37 +340,45 @@ const FirstPage = () => {
   const [showScratch2, setShowScratch2] = useState(false);
 
   //Handle click KNT
-  const handleClickCatOne = () => {
+  const handleClickCatOne = async () => {
     new Audio(click).play();
     setCatOneMood(catOneMood - 0.5);
     if (catOneMood <= 2 && catOneMood > 1) {
       new Audio(angryCatMeow1).play();
-      setCatOneWidth(320);
-      setCatOneHeight(330);
-      setCatOneTop(140);
-      setCatOneSrc(kntTwo);
-      setShowScratch1(true);
-      setTimeout(() => {
+      await new Promise((resolve) => {
+        setCatOneWidth(320);
+        setCatOneHeight(330);
+        setCatOneTop(140);
+        setCatOneSrc(kntTwo);
+        setShowScratch1(true);
+        setTimeout(resolve, 800);
+      });
+      await new Promise((resolve) => {
         setShowScratch1(false);
         setCatOneWidth(320);
         setCatOneHeight(300);
         setCatOneTop(140);
         setCatOneSrc(kntOne);
-      }, 600);
+        setTimeout(resolve, 800);
+      });
     } else if (catOneMood <= 1) {
       new Audio(angryCatMeow2).play();
-      setCatOneSrc(kntThree);
-      setCatOneWidth(300);
-      setCatOneHeight(380);
-      setCatOneTop(70);
-      setShowScratch2(true);
-      setTimeout(() => {
+      await new Promise((resolve) => {
+        setCatOneWidth(320);
+        setCatOneHeight(330);
+        setCatOneTop(140);
+        setCatOneSrc(kntTwo);
+        setTimeout(resolve, 800);
+        setShowScratch2(true);
+      });
+      await new Promise((resolve) => {
         setShowScratch2(false);
         setCatOneWidth(320);
         setCatOneHeight(300);
         setCatOneTop(140);
         setCatOneSrc(kntOne);
-      }, 600);
+        setTimeout(resolve, 800);
+      });
     } else if (catOneMood <= 3) {
       setShowPaw2(true);
       setTimeout(() => {
