@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import styled, { css, keyframes } from "styled-components";
 import bg from "../../assests/img/sceneOne/bg.png";
 import fixedUI from "../../assests/img/sceneOne/FixedUI.png";
@@ -484,16 +484,25 @@ const FirstPage = () => {
   //Function
   const [selectFunction, setSelectFunction] = useState("hand");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const prevMousePosition = useRef({ x: 0, y: 0 });
+
 
   useEffect(() => {
     const updateMousePosition = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      const { clientX, clientY } = e;
+      setMousePosition({ x: clientX, y: clientY });
     };
 
     window.addEventListener("mousemove", updateMousePosition);
 
-    return () => window.removeEventListener("mousemove", updateMousePosition);
+    return () => {
+      window.removeEventListener("mousemove", updateMousePosition);
+    };
   }, []);
+
+  useEffect(() => {
+    prevMousePosition.current = mousePosition;
+  }, [mousePosition]);
 
   const renderHand = () => {
     let pic;
@@ -514,7 +523,11 @@ const FirstPage = () => {
       default:
         pic = hand;
     }
-    return (
+
+    const shouldRender = Math.abs(mousePosition.x - prevMousePosition.current.x) > 2
+      || Math.abs(mousePosition.y - prevMousePosition.current.y) > 2;
+
+    return shouldRender ? (
       <div
         style={{
           position: "absolute",
@@ -528,8 +541,10 @@ const FirstPage = () => {
       >
         <img src={pic} alt="Hand" style={{ width: "100%", height: "auto" }} />
       </div>
-    );
+    ) : null;
   };
+
+
 
   //Handle click KNT
   const handleClickCatOne = () => {
