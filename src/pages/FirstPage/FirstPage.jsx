@@ -516,63 +516,63 @@ const FirstPage = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const prevMousePosition = useRef({ x: 0, y: 0 });
 
-  useEffect(() => {
-    const updateMousePosition = (e) => {
-      const { clientX, clientY } = e;
-      setMousePosition({ x: clientX, y: clientY });
-    };
+  // useEffect(() => {
+  //   const updateMousePosition = (e) => {
+  //     const { clientX, clientY } = e;
+  //     setMousePosition({ x: clientX, y: clientY });
+  //   };
 
-    window.addEventListener("mousemove", updateMousePosition);
+  //   window.addEventListener("mousemove", updateMousePosition);
 
-    return () => {
-      window.removeEventListener("mousemove", updateMousePosition);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("mousemove", updateMousePosition);
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    prevMousePosition.current = mousePosition;
-  }, [mousePosition]);
+  // useEffect(() => {
+  //   prevMousePosition.current = mousePosition;
+  // }, [mousePosition]);
 
-  const renderHand = () => {
-    let pic;
+  // const renderHand = () => {
+  //   let pic;
 
-    switch (selectFunction) {
-      case "hand":
-        pic = hand;
-        break;
-      case "lollipop":
-        pic = lollipop;
-        break;
-      case "food2":
-        pic = food2;
-        break;
-      case "towel":
-        pic = towel;
-        break;
-      default:
-        pic = hand;
-    }
+  //   switch (selectFunction) {
+  //     case "hand":
+  //       pic = hand;
+  //       break;
+  //     case "lollipop":
+  //       pic = lollipop;
+  //       break;
+  //     case "food2":
+  //       pic = food2;
+  //       break;
+  //     case "towel":
+  //       pic = towel;
+  //       break;
+  //     default:
+  //       pic = hand;
+  //   }
 
-    const shouldRender =
-      Math.abs(mousePosition.x - prevMousePosition.current.x) > 2 ||
-      Math.abs(mousePosition.y - prevMousePosition.current.y) > 2;
+  //   const shouldRender =
+  //     Math.abs(mousePosition.x - prevMousePosition.current.x) > 2 ||
+  //     Math.abs(mousePosition.y - prevMousePosition.current.y) > 2;
 
-    return shouldRender ? (
-      <div
-        style={{
-          position: "absolute",
-          left: mousePosition.x,
-          top: mousePosition.y,
-          width: "50px",
-          height: "auto",
-          pointerEvents: "none",
-          zIndex: 9999,
-        }}
-      >
-        <img src={pic} alt="Hand" style={{ width: "100%", height: "auto" }} />
-      </div>
-    ) : null;
-  };
+  //   return shouldRender ? (
+  //     <div
+  //       style={{
+  //         position: "absolute",
+  //         left: mousePosition.x,
+  //         top: mousePosition.y,
+  //         width: "50px",
+  //         height: "auto",
+  //         pointerEvents: "none",
+  //         zIndex: 9999,
+  //       }}
+  //     >
+  //       <img src={pic} alt="Hand" style={{ width: "100%", height: "auto" }} />
+  //     </div>
+  //   ) : null;
+  // };
 
   //Handle click KNT
   const handleClickCatOne = () => {
@@ -802,7 +802,7 @@ const FirstPage = () => {
           ></EndPanel>
         )}
       </Container>
-      {renderHand()}
+      {/* {renderHand()} */}
     </OuterContainer>
   );
 };
