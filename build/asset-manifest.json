@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/static/js/main.f3505813.chunk.js",
-    "main.js.map": "/static/js/main.f3505813.chunk.js.map",
+    "main.js": "/static/js/main.29bfb924.chunk.js",
+    "main.js.map": "/static/js/main.29bfb924.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.815fe873.js",
     "runtime-main.js.map": "/static/js/runtime-main.815fe873.js.map",
     "static/js/2.923b3cd0.chunk.js": "/static/js/2.923b3cd0.chunk.js",
@@ -28,6 +28,7 @@
     "static/media/knt3.6869a0d7.png": "/static/media/knt3.6869a0d7.png",
     "static/media/menu-click.b6ba2965.mp3": "/static/media/menu-click.b6ba2965.mp3",
     "static/media/nyt1.e2cfd2a1.png": "/static/media/nyt1.e2cfd2a1.png",
+    "static/media/nyt2.f1a3841d.png": "/static/media/nyt2.f1a3841d.png",
     "static/media/paw1.b5b9dd3c.png": "/static/media/paw1.b5b9dd3c.png",
     "static/media/paw2.3523e6d0.png": "/static/media/paw2.3523e6d0.png",
     "static/media/scratch1.861649fa.png": "/static/media/scratch1.861649fa.png",
@@ -38,6 +39,6 @@
     "static/js/runtime-main.815fe873.js",
     "static/js/2.923b3cd0.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.f3505813.chunk.js"
+    "static/js/main.29bfb924.chunk.js"
   ]
 }

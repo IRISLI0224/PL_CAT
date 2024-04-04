@@ -12,6 +12,7 @@ import kntOne from "../../assests/img/sceneOne/knt1.png";
 import kntTwo from "../../assests/img/sceneOne/knt2.png";
 import kntThree from "../../assests/img/sceneOne/knt3.png";
 import nytOne from "../../assests/img/sceneOne/nyt1.png";
+import nytTwo from "../../assests/img/sceneOne/nyt2.png";
 //import handCursor from '../../assests/img/sceneOne/hand.png'
 import bgMusic from "../../assests/audio/SceneOneBG.mp3";
 import BGAudioPlayer from "../../utils/BGAudioPlayer";
@@ -306,10 +307,14 @@ const FirstPage = () => {
   //NYT mood
   const [catTwoMood, setCatTwoMood] = useState(5);
   const [showQuestion, setShowQuestion] = useState(false);
+
+  //knt image and position control
   const [catOneSrc, setCatOneSrc] = useState(kntOne);
   const [catOneWidth, setCatOneWidth] = useState(320);
   const [catOneHeight, setCatOneHeight] = useState(300);
   const [catOneTop, setCatOneTop] = useState(140);
+
+  const [catTwoSrc, setCatTwoSrc] = useState(nytOne);
 
 
   //Handle click KNT
@@ -347,7 +352,14 @@ const FirstPage = () => {
 
   //Handle click NYT
   const handleClickCatTwo = () => {
+    //Play click sound
     new Audio(click).play();
+    //Change image for 0.8s
+    setCatTwoSrc(nytTwo);
+    setTimeout(() => {
+      setCatTwoSrc(nytOne);
+    }, 800);
+    //NYT gets angry a bit
     setCatTwoMood(catTwoMood - 0.3);
     //KNT gets angry too
     setCatOneMood(catOneMood - 0.5);
@@ -401,7 +413,7 @@ const FirstPage = () => {
             <>
               <BGAudioPlayer src={bgMusic} start={start} />
               <FixedUI src={fixedUI} alt="Fixed UI" />
-              <CatTwo src={nytOne} alt="catTwo" onClick={handleClickCatTwo} />
+              <CatTwo src={catTwoSrc} alt="catTwo" onClick={handleClickCatTwo} />
               <CatOne
                 src={catOneSrc}
                 alt="catOne"
