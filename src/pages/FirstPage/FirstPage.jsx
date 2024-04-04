@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled, { css, keyframes } from "styled-components";
 import bg from "../../assests/img/sceneOne/bg.png";
 import fixedUI from "../../assests/img/sceneOne/FixedUI.png";
@@ -99,7 +99,18 @@ const MainPanel = styled.div`
   background: url(${(props) => (!props.start ? props.startBG : props.bg)})
     no-repeat center center;
   background-size: cover;
-  cursor: none;
+  cursor: pointer;
+  font-size: 40px;
+`;
+
+const EndPanel = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: url(${(props) => (props.he ? props.HEBG : props.HEBG)}) no-repeat
+    center center;
+  background-size: cover;
+  cursor: pointer;
   font-size: 40px;
 `;
 
@@ -392,7 +403,8 @@ const Hand = styled.img`
     filter: brightness(1.2);
     transform: scale(1.03);
   }
-  filter: ${(props) => (props.selected ? "brightness(1.1)" : "brightness(0.8)")};
+  filter: ${(props) =>
+    props.selected ? "brightness(1.1)" : "brightness(0.8)"};
   transform: ${(props) => (props.selected ? "scale(1.1)" : "scale(1)")};
   transition: filter 0.3s, transform 0.3s;
 `;
@@ -417,7 +429,8 @@ const Lollipop = styled.img`
     filter: brightness(1.2);
     transform: scale(1.03);
   }
-  filter: ${(props) => (props.selected ? "brightness(1.1)" : "brightness(0.8)")};
+  filter: ${(props) =>
+    props.selected ? "brightness(1.1)" : "brightness(0.8)"};
   transform: ${(props) => (props.selected ? "scale(1.1)" : "scale(1)")};
   transition: filter 0.3s, transform 0.3s;
 `;
@@ -442,7 +455,8 @@ const Food2 = styled.img`
     filter: brightness(1.2);
     transform: scale(1.03);
   }
-  filter: ${(props) => (props.selected ? "brightness(1.1)" : "brightness(0.8)")};
+  filter: ${(props) =>
+    props.selected ? "brightness(1.1)" : "brightness(0.8)"};
   transform: ${(props) => (props.selected ? "scale(1.1)" : "scale(1)")};
   transition: filter 0.3s, transform 0.3s;
 `;
@@ -467,7 +481,8 @@ const Towel = styled.img`
     filter: brightness(1.2);
     transform: scale(1.03);
   }
-  filter: ${(props) => (props.selected ? "brightness(1.1)" : "brightness(0.8)")};
+  filter: ${(props) =>
+    props.selected ? "brightness(1.1)" : "brightness(0.8)"};
   transform: ${(props) => (props.selected ? "scale(1.1)" : "scale(1)")};
   transition: filter 0.3s, transform 0.3s;
 `;
@@ -476,6 +491,9 @@ const FirstPage = () => {
   const [start, setStart] = useState(false);
   //If game ends
   const [end, setEnd] = useState(false);
+  //Nty feed
+  const [nytFeed, setNytFeed] = useState(0);
+
   //KNT mood
   const [catOneMood, setCatOneMood] = useState(5);
   //NYT mood
@@ -497,7 +515,6 @@ const FirstPage = () => {
   const [selectFunction, setSelectFunction] = useState("hand");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const prevMousePosition = useRef({ x: 0, y: 0 });
-
 
   useEffect(() => {
     const updateMousePosition = (e) => {
@@ -536,8 +553,9 @@ const FirstPage = () => {
         pic = hand;
     }
 
-    const shouldRender = Math.abs(mousePosition.x - prevMousePosition.current.x) > 2
-      || Math.abs(mousePosition.y - prevMousePosition.current.y) > 2;
+    const shouldRender =
+      Math.abs(mousePosition.x - prevMousePosition.current.x) > 2 ||
+      Math.abs(mousePosition.y - prevMousePosition.current.y) > 2;
 
     return shouldRender ? (
       <div
@@ -555,8 +573,6 @@ const FirstPage = () => {
       </div>
     ) : null;
   };
-
-
 
   //Handle click KNT
   const handleClickCatOne = () => {
@@ -597,6 +613,7 @@ const FirstPage = () => {
 
   //Handle click NYT
   const handleClickCatTwo = () => {
+    if (catTwoMood <= 0 ||nytFeed>=5) setEnd(true);
     //Play click sound
     new Audio(click).play();
     //Change image for 0.8s
@@ -604,15 +621,26 @@ const FirstPage = () => {
     setTimeout(() => {
       setCatTwoSrc(nytOne);
     }, 800);
-    //NYT gets angry a bit
-    setCatTwoMood(catTwoMood - 0.3);
-    //KNT gets angry too
-    setCatOneMood(catOneMood - 0.5);
-    const audio = new Audio(angryCatMeow2);
-    audio.play();
-    setTimeout(() => {
-      audio.pause();
-    }, 1000);
+
+    if (selectFunction === "hand") {
+      //NYT gets angry a bit
+      setCatTwoMood(catTwoMood - 0.3);
+      //KNT gets angry too
+      setCatOneMood(catOneMood - 0.5);
+      const audio = new Audio(angryCatMeow2);
+      audio.play();
+      setTimeout(() => {
+        audio.pause();
+      }, 1000);
+    }
+    if (selectFunction === "lollipop") {
+      setNytFeed(nytFeed + 0.5);
+    }
+    if (selectFunction === "food2") {
+      setNytFeed(nytFeed + 1);
+    }
+
+
     if (catTwoMood <= 2) {
       new Audio(angryCatMeow2).play();
     } else if (catTwoMood <= 3) {
@@ -651,7 +679,9 @@ const FirstPage = () => {
   };
 
   const handleFunctionOnClick = (type) => {
-    setSelectFunction(type)
+    //Play click sound
+    new Audio(click).play();
+    setSelectFunction(type);
   };
 
   const isFunctionSelected = (functionName) => {
@@ -661,103 +691,116 @@ const FirstPage = () => {
   return (
     <OuterContainer>
       <Container>
-        <MainPanel start={start} bg={bg} startBG={startBG}>
-          {start ? (
-            <>
-              <BGAudioPlayer src={bgMusic} start={start} />
-              <FixedUI src={fixedUI} alt="Fixed UI" />
-              {/* Characters */}
-              <CatTwo
-                src={catTwoSrc}
-                alt="catTwo"
-                onClick={handleClickCatTwo}
-              />
-              {showCatOne === 1 && (
-                <CatOne src={kntOne} alt="catOne" onClick={handleClickCatOne} />
-              )}
-              {showCatOne === 2 && (
-                <CatOne2
-                  src={kntTwo}
-                  alt="catOne"
-                  onClick={handleClickCatOne}
+        {!end ? (
+          <MainPanel start={start} bg={bg} startBG={startBG}>
+            {start ? (
+              <>
+                <BGAudioPlayer src={bgMusic} start={start} />
+                <FixedUI src={fixedUI} alt="Fixed UI" />
+                {/* Characters */}
+                <CatTwo
+                  src={catTwoSrc}
+                  alt="catTwo"
+                  onClick={handleClickCatTwo}
                 />
-              )}
-              {showCatOne === 3 && (
-                <CatOne3
-                  src={kntThree}
-                  alt="catOne"
-                  onClick={handleClickCatOne}
+                {showCatOne === 1 && (
+                  <CatOne
+                    src={kntOne}
+                    alt="catOne"
+                    onClick={handleClickCatOne}
+                  />
+                )}
+                {showCatOne === 2 && (
+                  <CatOne2
+                    src={kntTwo}
+                    alt="catOne"
+                    onClick={handleClickCatOne}
+                  />
+                )}
+                {showCatOne === 3 && (
+                  <CatOne3
+                    src={kntThree}
+                    alt="catOne"
+                    onClick={handleClickCatOne}
+                  />
+                )}
+                {/* Status */}
+                <Frame src={frame} alt="frame" />
+                <Hand
+                  src={hand}
+                  alt="hand"
+                  onClick={() => {
+                    handleFunctionOnClick("hand");
+                  }}
+                  selected={isFunctionSelected("hand")}
                 />
-              )}
-              {/* Status */}
-              <Frame src={frame} alt="frame" />
-              <Hand
-                src={hand}
-                alt="hand"
-                onClick={() => {
-                  handleFunctionOnClick("hand");
-                }}
-                selected={isFunctionSelected("hand")}
-              />
-              <Lollipop
-                src={lollipop}
-                alt="lollipop"
-                onClick={() => {
-                  handleFunctionOnClick("lollipop");
-                }}
-                selected={isFunctionSelected("lollipop")}
-              />
-              <Food2
-                src={food2}
-                alt="food2"
-                onClick={() => {
-                  handleFunctionOnClick("food2");
-                }}
-                selected={isFunctionSelected("food2")}
-              />
-              <Towel
-                src={towel}
-                alt="towel"
-                onClick={() => {
-                  handleFunctionOnClick("towel");
-                }}
-                selected={isFunctionSelected("towel")}
-              />
-              <CatOneHeart
-                src={getKNTHeartImage(catOneMood)}
-                alt="catOneHeart"
-                mood={catOneMood}
-              />
-              <CatTwoHeart
-                src={getKNTHeartImage(catTwoMood)}
-                alt="catOneHeart"
-                mood={catTwoMood}
-              />
-              {catOneMood === 3 && <Angry1 src={angry1} alt="Angry1" />}
-              {catOneMood === 1 && <Angry2 src={angry2} alt="Angry2" />}
-              {catOneMood === 0 ||
-                (catOneMood === 2 && <Angry3 src={angry3} alt="Angry3" />)}
-              <QuestionMark
-                src={question}
-                alt="question"
-                visible={showQuestion}
-              />
-              <Paw1 src={paw1} alt="paw1" show={showPaw1} />
-              <Paw2 src={paw2} alt="paw2" show={showPaw2} />
-              <Scratch1 src={scratch1} alt="scratch1" show={showScratch1} />
-              <Scratch2 src={scratch2} alt="scratch2" show={showScratch2} />
-            </>
-          ) : (
-            <div>
-              <StartButton
-                src={startButton}
-                alt="StartButton"
-                onClick={handleClickStart}
-              />
-              <CloseButton src={closeButton} alt="CloseButton" />
-            </div>
-          )}
-        </MainPanel>
+                <Lollipop
+                  src={lollipop}
+                  alt="lollipop"
+                  onClick={() => handleFunctionOnClick("lollipop")}
+                  selected={isFunctionSelected("lollipop")}
+                />
+
+                <Food2
+                  src={food2}
+                  alt="food2"
+                  onClick={() => {
+                    handleFunctionOnClick("food2");
+                  }}
+                  selected={isFunctionSelected("food2")}
+                />
+
+                <Towel
+                  src={towel}
+                  alt="towel"
+                  onClick={() => {
+                    handleFunctionOnClick("towel");
+                  }}
+                  selected={isFunctionSelected("towel")}
+                />
+
+                <CatOneHeart
+                  src={getKNTHeartImage(catOneMood)}
+                  alt="catOneHeart"
+                  mood={catOneMood}
+                />
+                <CatTwoHeart
+                  src={getKNTHeartImage(catTwoMood)}
+                  alt="catOneHeart"
+                  mood={catTwoMood}
+                />
+                {catOneMood === 3 && <Angry1 src={angry1} alt="Angry1" />}
+                {catOneMood === 1 && <Angry2 src={angry2} alt="Angry2" />}
+                {catOneMood === 0 ||
+                  (catOneMood === 2 && <Angry3 src={angry3} alt="Angry3" />)}
+                <QuestionMark
+                  src={question}
+                  alt="question"
+                  visible={showQuestion}
+                />
+                <Paw1 src={paw1} alt="paw1" show={showPaw1} />
+                <Paw2 src={paw2} alt="paw2" show={showPaw2} />
+                <Scratch1 src={scratch1} alt="scratch1" show={showScratch1} />
+                <Scratch2 src={scratch2} alt="scratch2" show={showScratch2} />
+              </>
+            ) : (
+              <div>
+                <StartButton
+                  src={startButton}
+                  alt="StartButton"
+                  onClick={handleClickStart}
+                />
+                <CloseButton src={closeButton} alt="CloseButton" />
+              </div>
+            )}
+          </MainPanel>
+        ) : (
+          <EndPanel
+            he={nytFeed >= 5}
+            HEBG={nytFeed >= 5 ? he : be}
+            BEBG={be}
+          ></EndPanel>
+        )}
       </Container>
       {renderHand()}
     </OuterContainer>
