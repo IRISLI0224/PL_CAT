@@ -513,8 +513,8 @@ const FirstPage = () => {
 
   //Function
   const [selectFunction, setSelectFunction] = useState("hand");
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const prevMousePosition = useRef({ x: 0, y: 0 });
+ // const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+ // const prevMousePosition = useRef({ x: 0, y: 0 });
 
   // useEffect(() => {
   //   const updateMousePosition = (e) => {
