@@ -382,7 +382,7 @@ const FirstPage = () => {
   const handleClickCatOne = () => {
     new Audio(click).play();
     setCatOneMood(catOneMood - 0.5);
-    if (catOneMood <= 2 && catOneMood > 1) {
+    if (catOneMood ===2) {
       new Audio(angryCatMeow1).play();
       setShowScratch1(true);
       setShowCatOne(2);
@@ -398,13 +398,13 @@ const FirstPage = () => {
         setShowScratch2(false);
         setShowCatOne(1);
       }, 600);
-    } else if (catOneMood <= 3) {
+    } else if (catOneMood === 3) {
       setShowPaw2(true);
       setTimeout(() => {
         setShowPaw2(false);
       }, 600);
       new Audio(catMeow1).play();
-    } else if (catOneMood <= 4) {
+    } else if (catOneMood === 4) {
       setShowPaw1(true);
       setTimeout(() => {
         setShowPaw1(false);
