@@ -210,10 +210,52 @@ const QuestionMark = styled.img`
 
 const CatOne = styled.img`
   position: absolute;
-  top: ${(props) => props.top}px;
+  top: 140px;
   left: 120px;
-  width: ${(props) => props.width}px;
-  height: ${(props) => props.height}px;
+  width: 320px;
+  height: 300px;
+  object-fit: cover;
+  filter: brightness(1);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  ${(props) =>
+    props.hover &&
+    css`
+      filter: brightness(1.1);
+      transform: scale(1.02);
+    `}
+
+  &:hover {
+    filter: brightness(1.2);
+    transform: scale(1.03);
+  }
+`;
+const CatOne2 = styled.img`
+  position: absolute;
+  top: 140px;
+  left: 120px;
+  width: 320px;
+  height: 330px;
+  object-fit: cover;
+  filter: brightness(1);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  ${(props) =>
+    props.hover &&
+    css`
+      filter: brightness(1.1);
+      transform: scale(1.02);
+    `}
+
+  &:hover {
+    filter: brightness(1.2);
+    transform: scale(1.03);
+  }
+`;
+const CatOne3 = styled.img`
+  position: absolute;
+  top: 70px;
+  left: 120px;
+  width: 300px;
+  height: 380px;
   object-fit: cover;
   filter: brightness(1);
   transition: filter 0.3s ease, transform 0.3s ease;
@@ -325,10 +367,7 @@ const FirstPage = () => {
   const [catTwoMood, setCatTwoMood] = useState(5);
 
   //knt image and position control
-  const [catOneSrc, setCatOneSrc] = useState(kntOne);
-  const [catOneWidth, setCatOneWidth] = useState(320);
-  const [catOneHeight, setCatOneHeight] = useState(300);
-  const [catOneTop, setCatOneTop] = useState(140);
+  const [showCatOne, setShowCatOne] = useState(1);
 
   //knt image
   const [catTwoSrc, setCatTwoSrc] = useState(nytOne);
@@ -340,45 +379,25 @@ const FirstPage = () => {
   const [showScratch2, setShowScratch2] = useState(false);
 
   //Handle click KNT
-  const handleClickCatOne = async () => {
+  const handleClickCatOne = () => {
     new Audio(click).play();
     setCatOneMood(catOneMood - 0.5);
     if (catOneMood <= 2 && catOneMood > 1) {
       new Audio(angryCatMeow1).play();
-      await new Promise((resolve) => {
-        setCatOneWidth(320);
-        setCatOneHeight(330);
-        setCatOneTop(140);
-        setCatOneSrc(kntTwo);
-        setShowScratch1(true);
-        setTimeout(resolve, 800);
-      });
-      await new Promise((resolve) => {
+      setShowScratch1(true);
+      setShowCatOne(2);
+      setTimeout(() => {
         setShowScratch1(false);
-        setCatOneWidth(320);
-        setCatOneHeight(300);
-        setCatOneTop(140);
-        setCatOneSrc(kntOne);
-        setTimeout(resolve, 800);
-      });
+        setShowCatOne(1);
+      }, 600);
     } else if (catOneMood <= 1) {
       new Audio(angryCatMeow2).play();
-      await new Promise((resolve) => {
-        setCatOneWidth(320);
-        setCatOneHeight(330);
-        setCatOneTop(140);
-        setCatOneSrc(kntTwo);
-        setTimeout(resolve, 800);
-        setShowScratch2(true);
-      });
-      await new Promise((resolve) => {
+      setShowScratch2(true);
+      setShowCatOne(3);
+      setTimeout(() => {
         setShowScratch2(false);
-        setCatOneWidth(320);
-        setCatOneHeight(300);
-        setCatOneTop(140);
-        setCatOneSrc(kntOne);
-        setTimeout(resolve, 800);
-      });
+        setShowCatOne(1);
+      }, 600);
     } else if (catOneMood <= 3) {
       setShowPaw2(true);
       setTimeout(() => {
@@ -464,14 +483,23 @@ const FirstPage = () => {
                 alt="catTwo"
                 onClick={handleClickCatTwo}
               />
-              <CatOne
-                src={catOneSrc}
-                alt="catOne"
-                onClick={handleClickCatOne}
-                width={catOneWidth}
-                height={catOneHeight}
-                top={catOneTop}
-              />
+              {showCatOne === 1 && (
+                <CatOne src={kntOne} alt="catOne" onClick={handleClickCatOne} />
+              )}
+              {showCatOne === 2 && (
+                <CatOne2
+                  src={kntTwo}
+                  alt="catOne"
+                  onClick={handleClickCatOne}
+                />
+              )}
+              {showCatOne === 3 && (
+                <CatOne3
+                  src={kntThree}
+                  alt="catOne"
+                  onClick={handleClickCatOne}
+                />
+              )}
               <CatOneHeart
                 src={getKNTHeartImage(catOneMood)}
                 alt="catOneHeart"
