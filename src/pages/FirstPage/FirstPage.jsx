@@ -9,6 +9,8 @@ import kntHeart2 from "../../assests/img/sceneOne/kntheart2.png";
 import kntHeart1 from "../../assests/img/sceneOne/kntheart1.png";
 import kntHeart0 from "../../assests/img/sceneOne/kntheart0.png";
 import kntOne from "../../assests/img/sceneOne/knt1.png";
+import kntTwo from "../../assests/img/sceneOne/knt2.png";
+import kntThree from "../../assests/img/sceneOne/knt3.png";
 import nytOne from "../../assests/img/sceneOne/nyt1.png";
 //import handCursor from '../../assests/img/sceneOne/hand.png'
 import bgMusic from "../../assests/audio/SceneOneBG.mp3";
@@ -142,7 +144,7 @@ const Paw1 = styled.img`
   width: auto;
   height: auto;
   object-fit: cover;
- // animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
+  // animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
 `;
 
 const Paw2 = styled.img`
@@ -193,10 +195,10 @@ const QuestionMark = styled.img`
 
 const CatOne = styled.img`
   position: absolute;
-  top: 140px;
+  top: ${props => props.top}px;
   left: 120px;
-  width: 320px;
-  height: 300px;
+  width: ${props => props.width}px; 
+  height: ${props => props.height}px; 
   object-fit: cover;
   filter: brightness(1);
   transition: filter 0.3s ease, transform 0.3s ease;
@@ -216,8 +218,8 @@ const CatOne = styled.img`
 const CatTwo = styled.img`
   position: absolute;
   top: 160px;
-  left: 310px;
-  width: 350px;
+  left: 320px;
+  width: 330px;
   height: 280px;
   object-fit: cover;
   filter: brightness(1);
@@ -302,18 +304,41 @@ const FirstPage = () => {
   //KNT mood
   const [catOneMood, setCatOneMood] = useState(5);
   //NYT mood
-  const [catTwoMood, setcatTwoMood] = useState(5);
+  const [catTwoMood, setCatTwoMood] = useState(5);
   const [showQuestion, setShowQuestion] = useState(false);
+  const [catOneSrc, setCatOneSrc] = useState(kntOne);
+  const [catOneWidth, setCatOneWidth] = useState(320);
+  const [catOneHeight, setCatOneHeight] = useState(300);
+  const [catOneTop, setCatOneTop] = useState(140);
+
 
   //Handle click KNT
   const handleClickCatOne = () => {
     new Audio(click).play();
-    setCatOneMood(catOneMood - 1);
-    if (catOneMood <= 2) {
-      new Audio(angryCatMeow2).play();
-    } else if (catTwoMood <= 3) {
+    setCatOneMood(catOneMood - 0.5);
+    if (catOneMood <= 2&&catOneMood >1) {
       new Audio(angryCatMeow1).play();
-    } else if (catTwoMood <= 5) {
+      setCatOneWidth(320);
+      setCatOneHeight(330);
+      setCatOneSrc(kntTwo);
+      setTimeout(() => {
+        setCatOneWidth(320);
+        setCatOneHeight(300);
+        setCatOneSrc(kntOne);
+      }, 800);
+    } else if (catOneMood <= 1) {
+      new Audio(angryCatMeow2).play();
+      setCatOneWidth(300);
+      setCatOneHeight(380);
+      setCatOneTop(70);
+      setCatOneSrc(kntThree);
+      setTimeout(() => {
+        setCatOneWidth(320);
+        setCatOneHeight(300);
+        setCatOneTop(140);
+        setCatOneSrc(kntOne);
+      }, 800);
+    } else if (catOneMood <= 4) {
       new Audio(catMeow1).play();
     } else {
       new Audio(catMeow3).play();
@@ -323,7 +348,14 @@ const FirstPage = () => {
   //Handle click NYT
   const handleClickCatTwo = () => {
     new Audio(click).play();
-    setcatTwoMood(catTwoMood - 0.3);
+    setCatTwoMood(catTwoMood - 0.3);
+    //KNT gets angry too
+    setCatOneMood(catOneMood - 0.5);
+    const audio = new Audio(angryCatMeow2);
+    audio.play();
+    setTimeout(() => {
+      audio.pause();
+    }, 1000);
     if (catTwoMood <= 2) {
       new Audio(angryCatMeow2).play();
     } else if (catTwoMood <= 3) {
@@ -370,7 +402,14 @@ const FirstPage = () => {
               <BGAudioPlayer src={bgMusic} start={start} />
               <FixedUI src={fixedUI} alt="Fixed UI" />
               <CatTwo src={nytOne} alt="catTwo" onClick={handleClickCatTwo} />
-              <CatOne src={kntOne} alt="catOne" onClick={handleClickCatOne} />
+              <CatOne
+                src={catOneSrc}
+                alt="catOne"
+                onClick={handleClickCatOne}
+                width={catOneWidth}
+                height={catOneHeight}
+                top={catOneTop}
+              />
               <CatOneHeart
                 src={getKNTHeartImage(catOneMood)}
                 alt="catOneHeart"
