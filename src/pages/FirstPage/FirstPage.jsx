@@ -196,10 +196,10 @@ const QuestionMark = styled.img`
 
 const CatOne = styled.img`
   position: absolute;
-  top: ${props => props.top}px;
+  top: ${(props) => props.top}px;
   left: 120px;
-  width: ${props => props.width}px; 
-  height: ${props => props.height}px; 
+  width: ${(props) => props.width}px;
+  height: ${(props) => props.height}px;
   object-fit: cover;
   filter: brightness(1);
   transition: filter 0.3s ease, transform 0.3s ease;
@@ -301,12 +301,14 @@ const CloseButton = styled.img`
 `;
 
 const FirstPage = () => {
+  //If game starts
   const [start, setStart] = useState(false);
+  //If game ends
+  const [end, setEnd] = useState(false);
   //KNT mood
   const [catOneMood, setCatOneMood] = useState(5);
   //NYT mood
   const [catTwoMood, setCatTwoMood] = useState(5);
-  const [showQuestion, setShowQuestion] = useState(false);
 
   //knt image and position control
   const [catOneSrc, setCatOneSrc] = useState(kntOne);
@@ -314,21 +316,27 @@ const FirstPage = () => {
   const [catOneHeight, setCatOneHeight] = useState(300);
   const [catOneTop, setCatOneTop] = useState(140);
 
+  //knt image
   const [catTwoSrc, setCatTwoSrc] = useState(nytOne);
-
+  //effect
+  const [showQuestion, setShowQuestion] = useState(false);
+  const [showScreenEffect1, setShowScreenEffect1] = useState(false);
+  const [showScreenEffect2, setShowScreenEffect2] = useState(false);
 
   //Handle click KNT
   const handleClickCatOne = () => {
     new Audio(click).play();
     setCatOneMood(catOneMood - 0.5);
-    if (catOneMood <= 2&&catOneMood >1) {
+    if (catOneMood <= 2 && catOneMood > 1) {
       new Audio(angryCatMeow1).play();
       setCatOneWidth(320);
       setCatOneHeight(330);
+      setCatOneTop(140);
       setCatOneSrc(kntTwo);
       setTimeout(() => {
         setCatOneWidth(320);
         setCatOneHeight(300);
+        setCatOneTop(140);
         setCatOneSrc(kntOne);
       }, 800);
     } else if (catOneMood <= 1) {
@@ -413,7 +421,11 @@ const FirstPage = () => {
             <>
               <BGAudioPlayer src={bgMusic} start={start} />
               <FixedUI src={fixedUI} alt="Fixed UI" />
-              <CatTwo src={catTwoSrc} alt="catTwo" onClick={handleClickCatTwo} />
+              <CatTwo
+                src={catTwoSrc}
+                alt="catTwo"
+                onClick={handleClickCatTwo}
+              />
               <CatOne
                 src={catOneSrc}
                 alt="catOne"
