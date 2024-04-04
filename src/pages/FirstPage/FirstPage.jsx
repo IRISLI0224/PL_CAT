@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css, keyframes } from "styled-components";
 import bg from "../../assests/img/sceneOne/bg.png";
 import fixedUI from "../../assests/img/sceneOne/FixedUI.png";
@@ -34,6 +34,13 @@ import paw1 from "../../assests/img/sceneOne/paw1.png";
 import paw2 from "../../assests/img/sceneOne/paw2.png";
 import scratch1 from "../../assests/img/sceneOne/scratch1.png";
 import scratch2 from "../../assests/img/sceneOne/scratch2.png";
+import frame from "../../assests/img/sceneOne/frame.png";
+import hand from "../../assests/img/sceneOne/hand.png";
+import lollipop from "../../assests/img/sceneOne/lollipop.png";
+import food2 from "../../assests/img/sceneOne/food2.png";
+import towel from "../../assests/img/sceneOne/towel.PNG";
+import be from "../../assests/img/sceneOne/BE.png";
+import he from "../../assests/img/sceneOne/HE.png";
 
 const bounce = keyframes`
   0% { transform: translateY(0); }
@@ -92,7 +99,7 @@ const MainPanel = styled.div`
   background: url(${(props) => (!props.start ? props.startBG : props.bg)})
     no-repeat center center;
   background-size: cover;
-  cursor: pointer;
+  cursor: none;
   font-size: 40px;
 `;
 
@@ -356,6 +363,102 @@ const CloseButton = styled.img`
   }
 `;
 
+const Frame = styled.img`
+  position: absolute;
+  top: 60px;
+  left: 720px;
+  width: 520px;
+  height: auto;
+  object-fit: cover;
+`;
+
+const Hand = styled.img`
+  position: absolute;
+  top: 105px;
+  left: 875px;
+  width: 80px;
+  height: auto;
+  object-fit: cover;
+  filter: brightness(1);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  ${(props) =>
+    props.hover &&
+    css`
+      filter: brightness(1.1);
+      transform: scale(1.02);
+    `}
+
+  &:hover {
+    filter: brightness(1.2);
+    transform: scale(1.03);
+  }
+`;
+
+const Lollipop = styled.img`
+  position: absolute;
+  top: 184px;
+  left: 880px;
+  width: 63px;
+  height: auto;
+  object-fit: cover;
+  filter: brightness(1);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  ${(props) =>
+    props.hover &&
+    css`
+      filter: brightness(1.1);
+      transform: scale(1.02);
+    `}
+
+  &:hover {
+    filter: brightness(1.2);
+    transform: scale(1.03);
+  }
+`;
+
+const Food2 = styled.img`
+  position: absolute;
+  top: 260px;
+  left: 870px;
+  width: 90px;
+  height: auto;
+  object-fit: cover;
+  filter: brightness(1);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  ${(props) =>
+    props.hover &&
+    css`
+      filter: brightness(1.1);
+      transform: scale(1.02);
+    `}
+
+  &:hover {
+    filter: brightness(1.2);
+    transform: scale(1.03);
+  }
+`;
+
+const Towel = styled.img`
+  position: absolute;
+  top: 335px;
+  left: 860px;
+  width: 95px;
+  height: auto;
+  object-fit: cover;
+  filter: brightness(1);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  ${(props) =>
+    props.hover &&
+    css`
+      filter: brightness(1.1);
+      transform: scale(1.02);
+    `}
+
+  &:hover {
+    filter: brightness(1.2);
+    transform: scale(1.03);
+  }
+`;
 const FirstPage = () => {
   //If game starts
   const [start, setStart] = useState(false);
@@ -378,18 +481,68 @@ const FirstPage = () => {
   const [showScratch1, setShowScratch1] = useState(false);
   const [showScratch2, setShowScratch2] = useState(false);
 
+  //Function
+  const [selectFunction, setSelectFunction] = useState("hand");
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const updateMousePosition = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener("mousemove", updateMousePosition);
+
+    return () => window.removeEventListener("mousemove", updateMousePosition);
+  }, []);
+
+  const renderHand = () => {
+    let pic;
+
+    switch (selectFunction) {
+      case "hand":
+        pic = hand;
+        break;
+      case "lollipop":
+        pic = lollipop;
+        break;
+      case "food2":
+        pic = food2;
+        break;
+      case "towel":
+        pic = towel;
+        break;
+      default:
+        pic = hand;
+    }
+    return (
+      <div
+        style={{
+          position: "absolute",
+          left: mousePosition.x,
+          top: mousePosition.y,
+          width: "50px",
+          height: "auto",
+          pointerEvents: "none",
+          zIndex: 9999,
+        }}
+      >
+        <img src={pic} alt="Hand" style={{ width: "100%", height: "auto" }} />
+      </div>
+    );
+  };
+
   //Handle click KNT
   const handleClickCatOne = () => {
     new Audio(click).play();
     setCatOneMood(catOneMood - 0.5);
-    if (catOneMood ===2) {
+    if (catOneMood === 2) {
       new Audio(angryCatMeow1).play();
       setShowScratch1(true);
       setShowCatOne(2);
       setTimeout(() => {
         setShowScratch1(false);
         setShowCatOne(1);
-      }, 600);
+      }, 300);
     } else if (catOneMood <= 1) {
       new Audio(angryCatMeow2).play();
       setShowScratch2(true);
@@ -470,6 +623,10 @@ const FirstPage = () => {
     }
   };
 
+  const handleFunctionOnClick = (type) => {
+    setSelectFunction(type)
+  };
+
   return (
     <OuterContainer>
       <Container>
@@ -478,6 +635,7 @@ const FirstPage = () => {
             <>
               <BGAudioPlayer src={bgMusic} start={start} />
               <FixedUI src={fixedUI} alt="Fixed UI" />
+              {/* Characters */}
               <CatTwo
                 src={catTwoSrc}
                 alt="catTwo"
@@ -500,6 +658,36 @@ const FirstPage = () => {
                   onClick={handleClickCatOne}
                 />
               )}
+              {/* Status */}
+              <Frame src={frame} alt="frame" />
+              <Hand
+                src={hand}
+                alt="hand"
+                onClick={() => {
+                  handleFunctionOnClick("hand");
+                }}
+              />
+              <Lollipop
+                src={lollipop}
+                alt="lollipop"
+                onClick={() => {
+                  handleFunctionOnClick("lollipop");
+                }}
+              />
+              <Food2
+                src={food2}
+                alt="food2"
+                onClick={() => {
+                  handleFunctionOnClick("food2");
+                }}
+              />
+              <Towel
+                src={towel}
+                alt="towel"
+                onClick={() => {
+                  handleFunctionOnClick("towel");
+                }}
+              />
               <CatOneHeart
                 src={getKNTHeartImage(catOneMood)}
                 alt="catOneHeart"
@@ -536,6 +724,7 @@ const FirstPage = () => {
           )}
         </MainPanel>
       </Container>
+      {renderHand()}
     </OuterContainer>
   );
 };

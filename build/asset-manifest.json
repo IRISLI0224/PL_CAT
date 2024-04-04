@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/static/js/main.dfa7407b.chunk.js",
-    "main.js.map": "/static/js/main.dfa7407b.chunk.js.map",
+    "main.js": "/static/js/main.c7ed9dba.chunk.js",
+    "main.js.map": "/static/js/main.c7ed9dba.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.815fe873.js",
     "runtime-main.js.map": "/static/js/runtime-main.815fe873.js.map",
     "static/js/2.3d71de55.chunk.js": "/static/js/2.3d71de55.chunk.js",
@@ -12,8 +12,10 @@
     "index.html": "/index.html",
     "static/css/main.6dea0f05.chunk.css.map": "/static/css/main.6dea0f05.chunk.css.map",
     "static/js/2.3d71de55.chunk.js.LICENSE.txt": "/static/js/2.3d71de55.chunk.js.LICENSE.txt",
+    "static/media/BE.666701f7.png": "/static/media/BE.666701f7.png",
     "static/media/CloseButton.808c140e.png": "/static/media/CloseButton.808c140e.png",
     "static/media/FixedUI.72e142ee.png": "/static/media/FixedUI.72e142ee.png",
+    "static/media/HE.98bafde9.png": "/static/media/HE.98bafde9.png",
     "static/media/SceneOneBG.3bd3a6a0.mp3": "/static/media/SceneOneBG.3bd3a6a0.mp3",
     "static/media/StartButton.5deb130c.png": "/static/media/StartButton.5deb130c.png",
     "static/media/StartScene.b0c7bec9.png": "/static/media/StartScene.b0c7bec9.png",
@@ -23,9 +25,13 @@
     "static/media/cat-meow-2.1b91fd91.mp3": "/static/media/cat-meow-2.1b91fd91.mp3",
     "static/media/cat-meow-3.967a54e0.mp3": "/static/media/cat-meow-3.967a54e0.mp3",
     "static/media/click.d140e054.mp3": "/static/media/click.d140e054.mp3",
+    "static/media/food2.355426ae.png": "/static/media/food2.355426ae.png",
+    "static/media/frame.a9c0aa5b.png": "/static/media/frame.a9c0aa5b.png",
+    "static/media/hand.7677dea7.png": "/static/media/hand.7677dea7.png",
     "static/media/knt1.b81be0ec.png": "/static/media/knt1.b81be0ec.png",
     "static/media/knt2.b1343ce6.png": "/static/media/knt2.b1343ce6.png",
     "static/media/knt3.6869a0d7.png": "/static/media/knt3.6869a0d7.png",
+    "static/media/lollipop.4b7a6034.png": "/static/media/lollipop.4b7a6034.png",
     "static/media/menu-click.b6ba2965.mp3": "/static/media/menu-click.b6ba2965.mp3",
     "static/media/nyt1.e2cfd2a1.png": "/static/media/nyt1.e2cfd2a1.png",
     "static/media/nyt2.f1a3841d.png": "/static/media/nyt2.f1a3841d.png",
@@ -33,12 +39,13 @@
     "static/media/paw2.3523e6d0.png": "/static/media/paw2.3523e6d0.png",
     "static/media/scratch1.861649fa.png": "/static/media/scratch1.861649fa.png",
     "static/media/scratch2.6fde4360.png": "/static/media/scratch2.6fde4360.png",
+    "static/media/towel.38551f8a.PNG": "/static/media/towel.38551f8a.PNG",
     "static/media/very-angry-cat.a94453f6.mp3": "/static/media/very-angry-cat.a94453f6.mp3"
   },
   "entrypoints": [
     "static/js/runtime-main.815fe873.js",
     "static/js/2.3d71de55.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.dfa7407b.chunk.js"
+    "static/js/main.c7ed9dba.chunk.js"
   ]
 }

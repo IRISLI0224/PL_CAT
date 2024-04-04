@@ -6,6 +6,7 @@ const BackgroundMusic = ({ src,start }) => {
   useEffect(() => {
     if (start) {
       audio.loop = true;
+      //test only
       audio.play();
     }
 
