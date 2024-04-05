@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import debounce from "lodash/debounce";
 import styled, { css, keyframes } from "styled-components";
 import bg from "../../assests/img/sceneOne/bg.png";
 import fixedUI from "../../assests/img/sceneOne/FixedUI.png";
@@ -30,6 +31,7 @@ import angry1 from "../../assests/img/sceneOne/kntAngery1.png";
 import angry2 from "../../assests/img/sceneOne/kntAngery2.png";
 import angry3 from "../../assests/img/sceneOne/kntAngery3.png";
 import question from "../../assests/img/sceneOne/questionMark.png";
+import question2 from "../../assests/img/sceneOne/kntQuestion.png";
 import paw1 from "../../assests/img/sceneOne/paw1.png";
 import paw2 from "../../assests/img/sceneOne/paw2.png";
 import scratch1 from "../../assests/img/sceneOne/scratch1.png";
@@ -41,6 +43,8 @@ import food2 from "../../assests/img/sceneOne/food2.png";
 import towel from "../../assests/img/sceneOne/towel.PNG";
 import be from "../../assests/img/sceneOne/BE.png";
 import he from "../../assests/img/sceneOne/HE.png";
+import nytHappy from "../../assests/img/sceneOne/nytHappy.png";
+import kntHappy from "../../assests/img/sceneOne/kntHappy.png";
 
 const bounce = keyframes`
   0% { transform: translateY(0); }
@@ -140,6 +144,7 @@ const Angry1 = styled.img`
   height: 50px;
   object-fit: cover;
   animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
+  visibility: ${(props) => (props.show ? "visible" : "hidden")};
 `;
 
 const Angry2 = styled.img`
@@ -150,6 +155,7 @@ const Angry2 = styled.img`
   height: 70px;
   object-fit: cover;
   animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
+  visibility: ${(props) => (props.show ? "visible" : "hidden")};
 `;
 
 const Angry3 = styled.img`
@@ -160,6 +166,7 @@ const Angry3 = styled.img`
   height: 90px;
   object-fit: cover;
   animation: ${bounce} 0.5s ease-in-out infinite, ${fadeIn} 0.3s linear forwards;
+  visibility: ${(props) => (props.show ? "visible" : "hidden")};
 `;
 
 const Paw1 = styled.img`
@@ -215,6 +222,54 @@ const QuestionMark = styled.img`
   top: 180px;
   left: 650px;
   width: auto;
+  height: auto;
+  object-fit: cover;
+  opacity: 0;
+  ${({ visible }) =>
+    visible &&
+    css`
+      animation: ${bounce} 0.5s ease-in-out infinite,
+        ${fadeIn} 0.3s linear forwards;
+    `};
+`;
+
+const QuestionMark2 = styled.img`
+  position: absolute;
+  top: 170px;
+  left: 160px;
+  width: 80px;
+  height: auto;
+  object-fit: cover;
+  opacity: 0;
+  ${({ visible }) =>
+    visible &&
+    css`
+      animation: ${bounce} 0.5s ease-in-out infinite,
+        ${fadeIn} 0.3s linear forwards;
+    `};
+`;
+
+const NytHappy = styled.img`
+  position: absolute;
+  top: 180px;
+  left: 650px;
+  width: 100px;
+  height: auto;
+  object-fit: cover;
+  opacity: 0;
+  ${({ visible }) =>
+    visible &&
+    css`
+      animation: ${bounce} 0.5s ease-in-out infinite,
+        ${fadeIn} 0.3s linear forwards;
+    `};
+`;
+
+const KntHappy = styled.img`
+  position: absolute;
+  top: 170px;
+  left: 190px;
+  width: 50px;
   height: auto;
   object-fit: cover;
   opacity: 0;
@@ -404,7 +459,7 @@ const Hand = styled.img`
     transform: scale(1.03);
   }
   filter: ${(props) =>
-    props.selected ? "brightness(1.1)" : "brightness(0.8)"};
+    props.selected ? "brightness(1.1)" : "brightness(0.6)"};
   transform: ${(props) => (props.selected ? "scale(1.1)" : "scale(1)")};
   transition: filter 0.3s, transform 0.3s;
 `;
@@ -430,7 +485,7 @@ const Lollipop = styled.img`
     transform: scale(1.03);
   }
   filter: ${(props) =>
-    props.selected ? "brightness(1.1)" : "brightness(0.8)"};
+    props.selected ? "brightness(1.1)" : "brightness(0.6)"};
   transform: ${(props) => (props.selected ? "scale(1.1)" : "scale(1)")};
   transition: filter 0.3s, transform 0.3s;
 `;
@@ -456,7 +511,7 @@ const Food2 = styled.img`
     transform: scale(1.03);
   }
   filter: ${(props) =>
-    props.selected ? "brightness(1.1)" : "brightness(0.8)"};
+    props.selected ? "brightness(1.1)" : "brightness(0.6)"};
   transform: ${(props) => (props.selected ? "scale(1.1)" : "scale(1)")};
   transition: filter 0.3s, transform 0.3s;
 `;
@@ -482,7 +537,7 @@ const Towel = styled.img`
     transform: scale(1.03);
   }
   filter: ${(props) =>
-    props.selected ? "brightness(1.1)" : "brightness(0.8)"};
+    props.selected ? "brightness(1.1)" : "brightness(0.6)"};
   transform: ${(props) => (props.selected ? "scale(1.1)" : "scale(1)")};
   transition: filter 0.3s, transform 0.3s;
 `;
@@ -506,15 +561,21 @@ const FirstPage = () => {
   const [catTwoSrc, setCatTwoSrc] = useState(nytOne);
   //effect
   const [showQuestion, setShowQuestion] = useState(false);
+  const [showQuestion2, setShowQuestion2] = useState(false);
+  const [showNytHappy, setShowNytHappy] = useState(false);
+  const [showKntHappy, setShowKntHappy] = useState(false);
   const [showPaw1, setShowPaw1] = useState(false);
   const [showPaw2, setShowPaw2] = useState(false);
   const [showScratch1, setShowScratch1] = useState(false);
   const [showScratch2, setShowScratch2] = useState(false);
+  const [showAngry1, setShowAngry1] = useState(false);
+  const [showAngry2, setShowAngry2] = useState(false);
+  const [showAngry3, setShowAngry3] = useState(false);
 
   //Function
   const [selectFunction, setSelectFunction] = useState("hand");
- // const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
- // const prevMousePosition = useRef({ x: 0, y: 0 });
+  // const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  // const prevMousePosition = useRef({ x: 0, y: 0 });
 
   // useEffect(() => {
   //   const updateMousePosition = (e) => {
@@ -575,45 +636,89 @@ const FirstPage = () => {
   // };
 
   //Handle click KNT
-  const handleClickCatOne = () => {
+  const handleClickCatOne = debounce(() => {
     new Audio(click).play();
-    setCatOneMood(catOneMood - 0.5);
-    if (catOneMood === 2) {
-      new Audio(angryCatMeow1).play();
-      setShowScratch1(true);
-      setShowCatOne(2);
-      setTimeout(() => {
-        setShowScratch1(false);
-        setShowCatOne(1);
-      }, 300);
-    } else if (catOneMood <= 1) {
-      new Audio(angryCatMeow2).play();
-      setShowScratch2(true);
-      setShowCatOne(3);
-      setTimeout(() => {
-        setShowScratch2(false);
-        setShowCatOne(1);
-      }, 600);
-    } else if (catOneMood === 3) {
-      setShowPaw2(true);
-      setTimeout(() => {
-        setShowPaw2(false);
-      }, 600);
-      new Audio(catMeow1).play();
-    } else if (catOneMood === 4) {
-      setShowPaw1(true);
-      setTimeout(() => {
-        setShowPaw1(false);
-      }, 600);
-      new Audio(catMeow1).play();
-    } else {
-      new Audio(catMeow3).play();
+    
+    //function control
+    if (selectFunction === "hand") {
+      //KNT gets angry
+      setCatOneMood(catOneMood - 1);
+      //Mood effect
+      if (catOneMood <= 0) {
+        new Audio(angryCatMeow2).play();
+        setShowScratch2(true);
+        setShowAngry2(true);
+        setShowCatOne(3);
+        setTimeout(() => {
+          setShowScratch2(false);
+          setShowCatOne(1);
+          setShowAngry2(false);
+        }, 600);
+      } else if (catOneMood === 2 ||catOneMood === 1) {
+        new Audio(angryCatMeow1).play();
+        setShowScratch1(true);
+        setShowCatOne(2);
+        setShowAngry3(true);
+        setTimeout(() => {
+          setShowScratch1(false);
+          setShowCatOne(1);
+          setShowAngry3(false);
+        }, 300);
+      } else if (catOneMood === 3 || catOneMood === 5) {
+        setShowPaw2(true);
+        setShowAngry1(true);
+        setTimeout(() => {
+          setShowPaw2(false);
+          setShowAngry1(false);
+        }, 600);
+        new Audio(catMeow1).play();
+      } else if (catOneMood === 4) {
+        setShowPaw1(true);
+        setShowAngry2(true);
+        setTimeout(() => {
+          setShowPaw1(false);
+          setShowAngry2(false);
+        }, 600);
+        new Audio(catMeow1).play();
+      } else {
+        new Audio(catMeow3).play();
+      }
     }
-  };
+
+    if (selectFunction === "lollipop") {
+      new Audio(catMeow2).play();
+      //KNT feels confused
+      setShowQuestion2(true);
+      setTimeout(() => {
+        setShowQuestion2(false);
+      }, 900);
+    }
+
+    if (selectFunction === "food2") {
+      new Audio(catMeow1).play();
+      //KNT feels confused
+      setShowQuestion2(true);
+      setTimeout(() => {
+        setShowQuestion2(false);
+      }, 900);
+    }
+
+    if (selectFunction === "towel") {
+      //KNT feels happy
+      setCatOneMood(catOneMood + 1);
+      setShowKntHappy(true);
+      new Audio(catMeow2).play();
+      setTimeout(() => {
+        setShowKntHappy(false);
+      }, 900);
+    }
+
+    if (catOneMood<0) setCatOneMood(0)
+  }, 300);
 
   //Handle click NYT
-  const handleClickCatTwo = () => {
-    if (catTwoMood <= 0 ||nytFeed>=5) setEnd(true);
+  const handleClickCatTwo = debounce(() => {
+    if (catTwoMood <= 0 || nytFeed >= 5) setEnd(true);
     //Play click sound
     new Audio(click).play();
     //Change image for 0.8s
@@ -622,39 +727,97 @@ const FirstPage = () => {
       setCatTwoSrc(nytOne);
     }, 800);
 
+    //function control
     if (selectFunction === "hand") {
       //NYT gets angry a bit
-      setCatTwoMood(catTwoMood - 0.3);
+      setCatTwoMood(catTwoMood - 0.5);
       //KNT gets angry too
-      setCatOneMood(catOneMood - 0.5);
+      setCatOneMood(catOneMood - 1);
       const audio = new Audio(angryCatMeow2);
       audio.play();
       setTimeout(() => {
         audio.pause();
       }, 1000);
+      //Show question mark for NYT, show angry1 mark for KNT
+      setShowQuestion(true);
+      setTimeout(() => {
+        setShowQuestion(false);
+      }, 900);
+
+      //Mood sound
+      if (catTwoMood <= 2) {
+        new Audio(angryCatMeow2).play();
+      } else if (catTwoMood <= 3) {
+        new Audio(catMeow1).play();
+      } else if (catTwoMood <= 4) {
+        new Audio(catMeow2).play();
+      } else {
+        new Audio(catMeow3).play();
+      }
+
+      //Mood effect for KNT
+      if (catOneMood <= 1) {
+        setShowAngry3(true);
+        setTimeout(() => {
+          setShowAngry3(false);
+        }, 900);
+      } else if (catOneMood === 4 || catOneMood === 2) {
+        setShowAngry2(true);
+        setTimeout(() => {
+          setShowAngry2(false);
+        }, 900);
+      } else if (catOneMood === 5 || catOneMood === 3) {
+        setShowAngry1(true);
+        setTimeout(() => {
+          setShowAngry1(false);
+        }, 900);
+      }
     }
     if (selectFunction === "lollipop") {
       setNytFeed(nytFeed + 0.5);
+      //NYT gets happy
+      setCatTwoMood(catTwoMood + 0.5);
+      //NYT gets happy too
+      setCatOneMood(catOneMood + 0.6);
+      new Audio(catMeow2).play();
+      //Show happy mark for both
+      setShowNytHappy(true);
+      setShowKntHappy(true);
+      setTimeout(() => {
+        setShowNytHappy(false);
+        setShowKntHappy(false);
+      }, 900);
     }
     if (selectFunction === "food2") {
       setNytFeed(nytFeed + 1);
-    }
-
-
-    if (catTwoMood <= 2) {
-      new Audio(angryCatMeow2).play();
-    } else if (catTwoMood <= 3) {
+      //NYT gets happy
+      setCatTwoMood(catTwoMood + 1);
+      //NYT gets happy too
+      setCatOneMood(catOneMood + 1.1);
       new Audio(catMeow1).play();
-    } else if (catTwoMood <= 4) {
-      new Audio(catMeow2).play();
-    } else {
-      new Audio(catMeow3).play();
+      //Show happy mark for both
+      setShowNytHappy(true);
+      setShowKntHappy(true);
+      setTimeout(() => {
+        setShowNytHappy(false);
+        setShowKntHappy(false);
+      }, 900);
+      setTimeout(() => {
+        setShowNytHappy(false);
+      }, 900);
     }
-    setShowQuestion(true);
-    setTimeout(() => {
-      setShowQuestion(false);
-    }, 900);
-  };
+    if (selectFunction === "towel") {
+      //Show question mark
+      setShowQuestion(true);
+      new Audio(catMeow2).play();
+      setTimeout(() => {
+        setShowQuestion(false);
+      }, 900);
+    }
+
+    if (catOneMood<0) setCatOneMood(0)
+    if (catTwoMood<0) setCatTwoMood(0)
+  }, 300);
 
   const handleClickStart = () => {
     setStart(true);
@@ -740,7 +903,6 @@ const FirstPage = () => {
                   onClick={() => handleFunctionOnClick("lollipop")}
                   selected={isFunctionSelected("lollipop")}
                 />
-
                 <Food2
                   src={food2}
                   alt="food2"
@@ -749,7 +911,6 @@ const FirstPage = () => {
                   }}
                   selected={isFunctionSelected("food2")}
                 />
-
                 <Towel
                   src={towel}
                   alt="towel"
@@ -758,7 +919,6 @@ const FirstPage = () => {
                   }}
                   selected={isFunctionSelected("towel")}
                 />
-
                 <CatOneHeart
                   src={getKNTHeartImage(catOneMood)}
                   alt="catOneHeart"
@@ -769,14 +929,28 @@ const FirstPage = () => {
                   alt="catOneHeart"
                   mood={catTwoMood}
                 />
-                {catOneMood === 3 && <Angry1 src={angry1} alt="Angry1" />}
-                {catOneMood === 1 && <Angry2 src={angry2} alt="Angry2" />}
-                {catOneMood === 0 ||
-                  (catOneMood === 2 && <Angry3 src={angry3} alt="Angry3" />)}
+                <Angry1 src={angry1} alt="Angry1" show={showAngry1} />
+                <Angry2 src={angry2} alt="Angry2" show={showAngry2} />
+                <Angry3 src={angry3} alt="Angry3" show={showAngry3} />
                 <QuestionMark
                   src={question}
                   alt="question"
                   visible={showQuestion}
+                />
+                <QuestionMark2
+                  src={question2}
+                  alt="question2"
+                  visible={showQuestion2}
+                />
+                <NytHappy
+                  src={nytHappy}
+                  alt="NytHappy"
+                  visible={showNytHappy}
+                />
+                <KntHappy
+                  src={kntHappy}
+                  alt="kntHappy"
+                  visible={showKntHappy}
                 />
                 <Paw1 src={paw1} alt="paw1" show={showPaw1} />
                 <Paw2 src={paw2} alt="paw2" show={showPaw2} />

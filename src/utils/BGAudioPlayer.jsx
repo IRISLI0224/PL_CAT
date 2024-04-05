@@ -7,7 +7,7 @@ const BackgroundMusic = ({ src,start }) => {
     if (start) {
       audio.loop = true;
       //test only
-      audio.play();
+      //audio.play();
     }
 
     return () => {
