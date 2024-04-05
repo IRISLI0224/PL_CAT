@@ -20,6 +20,7 @@ import BGAudioPlayer from "../../utils/BGAudioPlayer";
 import startBG from "../../assests/img/sceneOne/StartScene.png";
 import startButton from "../../assests/img/sceneOne/StartButton.png";
 import closeButton from "../../assests/img/sceneOne/CloseButton.png";
+import reStartButton from "../../assests/img/sceneOne/RestartButton.png";
 import catMeow1 from "../../assests/audio/cat-meow-1.mp3";
 import catMeow2 from "../../assests/audio/cat-meow-2.mp3";
 import catMeow3 from "../../assests/audio/cat-meow-3.mp3";
@@ -64,15 +65,6 @@ const fadeIn = keyframes`
   }
   to {
     opacity: 1;
-  }
-`;
-
-const fadeOut = keyframes`
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
   }
 `;
 
@@ -429,6 +421,28 @@ const CloseButton = styled.img`
   }
 `;
 
+const RestartButton = styled.img`
+  position: absolute;
+  top: 480px;
+  left: 30px;
+  width: 180px;
+  height: auto;
+  object-fit: cover;
+  filter: brightness(1);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  ${(props) =>
+    props.hover &&
+    css`
+      filter: brightness(1.2);
+      transform: scale(1.02);
+    `}
+
+  &:hover {
+    filter: brightness(1.3);
+    transform: scale(1.03);
+  }
+`;
+
 const Frame = styled.img`
   position: absolute;
   top: 60px;
@@ -638,7 +652,7 @@ const FirstPage = () => {
   //Handle click KNT
   const handleClickCatOne = debounce(() => {
     new Audio(click).play();
-    
+
     //function control
     if (selectFunction === "hand") {
       //KNT gets angry
@@ -654,7 +668,7 @@ const FirstPage = () => {
           setShowCatOne(1);
           setShowAngry2(false);
         }, 600);
-      } else if (catOneMood === 2 ||catOneMood === 1) {
+      } else if (catOneMood === 2 || catOneMood === 1) {
         new Audio(angryCatMeow1).play();
         setShowScratch1(true);
         setShowCatOne(2);
@@ -713,7 +727,8 @@ const FirstPage = () => {
       }, 900);
     }
 
-    if (catOneMood<0) setCatOneMood(0)
+    if (catOneMood < 0) setCatOneMood(0);
+    if (catOneMood > 5) setCatOneMood(5);
   }, 300);
 
   //Handle click NYT
@@ -815,8 +830,10 @@ const FirstPage = () => {
       }, 900);
     }
 
-    if (catOneMood<0) setCatOneMood(0)
-    if (catTwoMood<0) setCatTwoMood(0)
+    if (catOneMood < 0) setCatOneMood(0);
+    if (catTwoMood < 0) setCatTwoMood(0);
+    if (catOneMood > 5) setCatOneMood(5);
+    if (catTwoMood > 5) setCatTwoMood(5);
   }, 300);
 
   const handleClickStart = () => {
@@ -824,21 +841,38 @@ const FirstPage = () => {
     new Audio(menuClick).play();
   };
 
+  const handleClickReStart = () => {
+    new Audio(menuClick).play();
+    window.location.reload();
+  };
+
   const getKNTHeartImage = (mood) => {
-    switch (Math.floor(mood)) {
-      case 5:
-        return kntHeart5;
-      case 4:
-        return kntHeart4;
-      case 3:
-        return kntHeart3;
-      case 2:
-        return kntHeart2;
-      case 1:
-        return kntHeart1;
+    mood = Math.floor(mood);
+    let heartImage;
+    switch (true) {
+      case mood >= 5:
+        heartImage = kntHeart5;
+        break;
+      case mood <= 0:
+        heartImage = kntHeart0;
+        break;
+      case mood === 1:
+        heartImage = kntHeart1;
+        break;
+      case mood === 2:
+        heartImage = kntHeart2;
+        break;
+      case mood === 3:
+        heartImage = kntHeart3;
+        break;
+      case mood === 4:
+        heartImage = kntHeart4;
+        break;
       default:
-        return kntHeart0;
+        heartImage = kntHeart5;
+        break;
     }
+    return heartImage;
   };
 
   const handleFunctionOnClick = (type) => {
@@ -969,11 +1003,13 @@ const FirstPage = () => {
             )}
           </MainPanel>
         ) : (
-          <EndPanel
-            he={nytFeed >= 5}
-            HEBG={nytFeed >= 5 ? he : be}
-            BEBG={be}
-          ></EndPanel>
+          <EndPanel he={nytFeed >= 5} HEBG={nytFeed >= 5 ? he : be} BEBG={be}>
+            <RestartButton
+              src={reStartButton}
+              alt="RestartButton"
+              onClick={handleClickReStart}
+            />
+          </EndPanel>
         )}
       </Container>
       {/* {renderHand()} */}
